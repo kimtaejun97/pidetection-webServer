@@ -15,7 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -39,16 +42,19 @@ public class CrawlingApiControllerTest {
     public void save(){
         String fileName = "testFileName";
         String url = "http://www.testurl";
+        Map<String, String> data = new HashMap<>();
+        data.put("fileName", fileName);
+        data.put("url", url);
 
-        CrawlingSaveRequestDto requestDto = CrawlingSaveRequestDto.builder()
-                .fileName(fileName)
-                .url(url)
-                .build();
+//        CrawlingSaveRequestDto requestDto = CrawlingSaveRequestDto.builder()
+//                .fileName(fileName)
+//                .url(url)
+//                .build();
 
         String postUrl = "http://localhost:"+port+"api/saveface";
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(postUrl,
-                requestDto,
+                data,
                 String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

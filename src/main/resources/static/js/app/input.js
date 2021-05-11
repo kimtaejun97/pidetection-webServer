@@ -1,11 +1,11 @@
 var main = {
     init: function () {
-        var _this = this;
+        var _this = this
         $('#btn-result').on("click", function () {
             _this.result();
         });
 
-        $('#btn-upload').on("click",function(){
+        $('#btn-upload').on("click",function (){
             _this.upload()
         });
     },
@@ -15,7 +15,6 @@ var main = {
         var file = $("#btn-input-file")[0].files;
         // var image =new Blob([file],{type:"image/jpg"})
         // reader.readAsArrayBuffer(file);
-
 
         var data ={
             url : "test url",
@@ -48,7 +47,7 @@ var main = {
             processData: false,
             contentType: false,
             dataType: 'text',
-            success: function (result) {
+            success: function () {
                 alert("파일 업로드 완료.");
                 window.location.href = "/wait-page";
             },
@@ -62,5 +61,7 @@ var main = {
 };
 
 main.init();
+
+
 
 

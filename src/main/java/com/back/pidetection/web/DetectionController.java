@@ -58,15 +58,14 @@ public class DetectionController {
     }
 
 
-    // AI Server쪽 코
+    // AI Server쪽 코드
     @PostMapping("/api/detection/input")
-    public @ResponseBody void inputSaveTest( @RequestParam("image")MultipartFile image) throws IOException {
-        String filePath="/Users/kimtaejun/Desktop/Capstone/pidetection/src/main/java/com/back/pidetection/web/";
+    public @ResponseBody void inputSaveTest( @RequestParam("image") MultipartFile image) throws IOException {
+        String filePath="/Users/kimtaejun/Desktop/pidetection/src/main/java/com/back/pidetection/web/";
 
         String fileName = image.getOriginalFilename();
         System.out.println("파일 이름 : "+fileName);
         byte[] im = image.getBytes();
-        long fileSize = (long)im.length;
         System.out.println("파일 크기 : "+im.length);
 
         try{

@@ -45,6 +45,10 @@ dependencies {
     compile('com.h2database:h2')
     compile('mysql:mysql-connector-java')
 
+    //json
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+
+
 }
 
 test {

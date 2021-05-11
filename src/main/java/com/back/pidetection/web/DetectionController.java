@@ -44,7 +44,7 @@ public class DetectionController {
     public String resultTest2(Model model){
 //        model.addAttribute("result-url", urls);
 //        model.addAttribute("result-image", images);
-        ArrayList<String> test  = new ArrayList<>(){
+        ArrayList<String> test  = new ArrayList<String>(){
             {
                 add("test1");
                 add("test2");

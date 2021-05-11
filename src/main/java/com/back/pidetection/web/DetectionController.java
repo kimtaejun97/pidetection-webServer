@@ -25,6 +25,9 @@ public class DetectionController {
         return "wait-page";
     }
 
+    @GetMapping("/input")
+    public String inputPage() { return "input"; }
+
     @PostMapping("/api/detection/result")
     public String saveResult(@RequestBody DetectionResultDto resultDto) {
         if (resultDto.getImage().length != 0) {
@@ -37,12 +40,21 @@ public class DetectionController {
         }
 
     }
-    @GetMapping("/detection-result")
+    @GetMapping("/result")
     public String resultTest2(Model model){
 //        model.addAttribute("result-url", urls);
 //        model.addAttribute("result-image", images);
+        ArrayList<String> test  = new ArrayList<>(){
+            {
+                add("test1");
+                add("test2");
+                add("test3");
+            }
+        };
+        model.addAttribute("test",test);
+
         model.addAttribute("result",resultDtos);
-        return "detection-result";
+        return "result";
     }
 
 

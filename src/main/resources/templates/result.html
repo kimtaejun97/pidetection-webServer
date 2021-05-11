@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://thymeleaf.org">
+<head>
+	<th:block th:replace="fragment/header :: headerFragment"></th:block>
+</head>
+
+    <body class="is-preload">
+        <form>
+            <section id="header">
+				<div class="inner">
+					<span class="icon solid major fa-cloud"></span>
+					<h1><strong>행복이</strong><br></h1>
+					<h3>개인 정보 유출 검사를 완료하였습니다</h3>
+                    <ul class="actions special">
+                        <li><a href="#one" class="button scrolly">확인하기</a></li>
+                    </ul>
+				</div>
+			</section>
+		</form>
+
+        <section id="one" class="main style1 special">
+			<div class="container">
+				<header class="major">
+					<h2>개인 정보 유출 결과</h2>
+				</header>
+				<table>
+					<thead>
+						<th>Image</th>
+						<th>URL</th>
+					</thead>
+					<tbody>
+					<tr th:each="result : ${result}">
+					<!--url 은 링크로-->
+						<td th:image="${result.image}"></td>
+						<td><a th:text="${result.url}" href="${result.url}"></a></td>
+					</tr>
+
+					<!--TEST-->
+					<tr th:each="test : ${test}"  >
+						<td th:text="${test}"></td>
+						<td><a th:text="${test}" href="${test}"></a></td>
+					</tr>
+					</tbody>
+
+				</table>
+
+			</div>
+		</section>
+
+
+        <section id="two">
+			<div>
+
+			</div>
+        </section>
+
+		<th:block th:replace="fragment/footer :: footerFragment"></th:block>
+
+	</body>
+</html>

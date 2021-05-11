@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th = "http://www.thymeleaf.org">
+<head>
+	<th:block th:replace="fragment/header :: headerFragment"></th:block>
+</head>
+
+    <body class="is-preload">
+        <form>
+            <section id="header">
+				<div class="inner">
+					<span class="icon solid major fa-cloud"></span>
+					<h1><strong>행복이</strong><br></h1>
+					<h3>개인정보 검출 도우미 </h3>
+					<div class="align-center">
+						<form id="input-image" method="post" enctype="multipart/form-data">
+							<input type="file" name="image" >
+							<button type="button" id="btn-upload">파일 업로드</button>
+						</form>
+                    </div>
+				</div>
+			</section>
+		</form>
+
+		<th:block th:replace="fragment/footer :: footerFragment"></th:block>
+	</body>
+</html>
+

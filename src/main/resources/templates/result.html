@@ -25,20 +25,16 @@
 				</header>
 				<table>
 					<thead>
-						<th>Image</th>
+						<th>매칭 이미지</th>
 						<th>URL</th>
+						<th>일치</th>
 					</thead>
 					<tbody>
 					<tr th:each="result : ${result}">
 					<!--url 은 링크로-->
-						<td th:image="${result.image}"></td>
+						<td><img th:src="*{'data:image/png;base64,'+result.image}" alt="" width="112" /></td>
 						<td><a th:text="${result.url}" href="${result.url}"></a></td>
-					</tr>
-
-					<!--TEST-->
-					<tr th:each="test : ${test}"  >
-						<td th:text="${test}"></td>
-						<td><a th:text="${test}" href="${test}"></a></td>
+						<td th:text = "${result.precision}"></td>
 					</tr>
 					</tbody>
 

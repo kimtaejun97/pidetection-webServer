@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
 
 <html xmlns:th = "http://www.thymeleaf.org">
-<head>
-	<th:block th:replace="fragment/header :: headerFragment"></th:block>
-</head>
+	<head>
+		<th:block th:replace="fragment/header :: headerFragment"></th:block>
+	</head>
 
-    <body class="is-preload">
-        <form id="input-image" method="post" enctype="multipart/form-data">
-            <section id="header">
+	<body class="is-preload">
+		<form id="input-image" method="post" enctype="multipart/form-data">
+			<section id="header">
 				<div class="inner">
 					<span class="icon solid major fa-cloud"></span>
 					<h1><strong>행복이</strong><br></h1>
@@ -15,12 +15,17 @@
 					<div class="align-center">
 						<input type="file" name="image" >
 						<button type="button" id="btn-upload">파일 업로드</button>
-                    </div>
+					</div>
+					<div class ="align-center">
+						<h1><strong id ="wait-msg"></strong><br></h1>
+					</div>
 
 				</div>
 			</section>
+		</form>
 
-		<th:block th:replace="fragment/footer :: footerFragment"></th:block>
+
+			<th:block th:replace="fragment/footer :: footerFragment"></th:block>
 
 	</body>
 

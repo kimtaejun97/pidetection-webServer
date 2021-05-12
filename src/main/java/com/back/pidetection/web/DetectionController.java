@@ -1,6 +1,10 @@
 package com.back.pidetection.web;
 
+import com.back.pidetection.service.DetectionService;
 import com.back.pidetection.web.dto.DetectionResultDto;
+import lombok.RequiredArgsConstructor;
+import netscape.javascript.JSObject;
+import org.h2.util.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -8,13 +12,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Map;
 
-
+@RequiredArgsConstructor
 @Controller
 public class DetectionController {
 //    ArrayList<String> urls= new ArrayList<>();
 //    ArrayList<byte[]> images= new ArrayList<>();
-    ArrayList<DetectionResultDto> resultDtos = new ArrayList<>();
+    private final ArrayList<DetectionResultDto> resultDtos;
+    private final DetectionService detectionService;
+
+
+
     @GetMapping("/")
     public String index(){
         return "index";
@@ -29,30 +38,28 @@ public class DetectionController {
     public String inputPage() { return "input"; }
 
     @PostMapping("/api/detection/result")
-    public String saveResult(@RequestBody DetectionResultDto resultDto) {
-        if (resultDto.getImage().length != 0) {
-//            urls.add(resultDto.getUrl());
-//            images.add(resultDto.getImage());
+    public String saveResult(@RequestParam("face") MultipartFile image,
+                             @RequestParam("url") String url,
+                             @RequestParam("precision") String precision) throws IOException {
+
+        DetectionResultDto resultDto = detectionService.getResultDto(image, url, precision);
+
+        System.out.println("URL :"+resultDto.getUrl());
+        System.out.println("PRECSTION : "+resultDto.getPrecision());
+
+        if (! resultDto.getUrl().equals("")) {
             resultDtos.add(resultDto);
-            return "wait-page";
+            System.out.println("==검출!==");
+            return "/wait-page";
         } else {
-            return "redirect:detection-result";
+            System.out.println("매칭 종료.");
+
+            return "redirect:/result";
         }
 
     }
     @GetMapping("/result")
     public String resultTest2(Model model){
-//        model.addAttribute("result-url", urls);
-//        model.addAttribute("result-image", images);
-        ArrayList<String> test  = new ArrayList<String>(){
-            {
-                add("test1");
-                add("test2");
-                add("test3");
-            }
-        };
-        model.addAttribute("test",test);
-
         model.addAttribute("result",resultDtos);
         return "result";
     }
@@ -60,7 +67,7 @@ public class DetectionController {
 
     // AI Server쪽 코드
     @PostMapping("/api/detection/input")
-    public @ResponseBody void inputSaveTest( @RequestParam("image") MultipartFile image) throws IOException {
+    public @ResponseBody String inputSaveTest( @RequestParam("image") MultipartFile image) throws IOException, InterruptedException {
         String filePath="/Users/kimtaejun/Desktop/pidetection/src/main/java/com/back/pidetection/web/";
 
         String fileName = image.getOriginalFilename();
@@ -76,6 +83,13 @@ public class DetectionController {
             e.printStackTrace();
         }
         System.out.println("사용자 이미지 저장 성공.");
+
+        System.out.println("얼굴 매칭....");
+        System.out.println("결과 전송....");
+        Thread.sleep(5000);
+        System.out.println("종료.");
+
+        return "/result";
 
     }
 

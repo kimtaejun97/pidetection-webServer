@@ -3,8 +3,6 @@ package com.back.pidetection.web;
 import com.back.pidetection.service.DetectionService;
 import com.back.pidetection.web.dto.DetectionResultDto;
 import lombok.RequiredArgsConstructor;
-import netscape.javascript.JSObject;
-import org.h2.util.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,16 +10,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
 public class DetectionController {
-//    ArrayList<String> urls= new ArrayList<>();
-//    ArrayList<byte[]> images= new ArrayList<>();
     private final ArrayList<DetectionResultDto> resultDtos;
     private final DetectionService detectionService;
-
 
 
     @GetMapping("/")

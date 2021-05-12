@@ -2,13 +2,10 @@ package com.back.pidetection.service;
 
 import com.back.pidetection.web.dto.DetectionResultDto;
 import lombok.RequiredArgsConstructor;
-import org.h2.util.json.JSONObject;
-import org.h2.util.json.JSONValue;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +17,7 @@ public class DetectionService {
                 .url(url)
                 .precision(precision)
                 .build();
+
 
         return detectionResultDto;
 

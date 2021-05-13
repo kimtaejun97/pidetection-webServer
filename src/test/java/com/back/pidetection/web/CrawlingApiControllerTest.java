@@ -40,11 +40,11 @@ public class CrawlingApiControllerTest {
 
     @Test
     public void save(){
-        String fileName = "testFileName";
         String url = "http://www.testurl";
+        String hash = "asdfdfd0f0";
         Map<String, String> data = new HashMap<>();
-        data.put("fileName", fileName);
         data.put("url", url);
+        data.put("hash", hash);
 
 //        CrawlingSaveRequestDto requestDto = CrawlingSaveRequestDto.builder()
 //                .fileName(fileName)
@@ -53,15 +53,15 @@ public class CrawlingApiControllerTest {
 
         String postUrl = "http://localhost:"+port+"api/saveface";
 
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(postUrl,
+        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(postUrl,
                 data,
-                String.class);
+                Long.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         List<Crawling> crawlingList = crawlingRepository.findAll();
-        assertThat(crawlingList.get(0).getFileName()).isEqualTo(fileName);
         assertThat(crawlingList.get(0).getUrl()).isEqualTo(url);
+        assertThat(crawlingList.get(0).getHash()).isEqualTo(hash);
 
     }
 

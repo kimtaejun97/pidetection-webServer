@@ -17,7 +17,7 @@ public class CrawlingApiController {
     private final CrawlingService crawlingService;
 
     @PostMapping("/api/saveface")
-    public String save(@RequestBody Map<String, String> reqeust){
+    public Long save(@RequestBody Map<String, String> reqeust){
         return crawlingService.save(reqeust);
     }
 }

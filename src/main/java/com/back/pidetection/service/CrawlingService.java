@@ -15,13 +15,13 @@ public class CrawlingService {
     private final CrawlingRepository crawlingRepository;
 
     @Transactional
-    public String save(Map<String, String> request){
+    public Long save(Map<String, String> request){
         CrawlingSaveRequestDto requestDto = CrawlingSaveRequestDto.builder()
-                .fileName(request.get("fileName"))
                 .url(request.get("url"))
+                .hash(request.get("hash"))
                 .build();
 
-        return crawlingRepository.save(requestDto.toEntity()).getFileName();
+        return crawlingRepository.save(requestDto.toEntity()).getId();
     }
 
 }

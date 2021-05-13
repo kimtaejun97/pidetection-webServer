@@ -12,14 +12,18 @@ import javax.persistence.*;
 public class Crawling {
 
     @Id
-    private String fileName;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(length = 1000, nullable = false)
     private String url;
 
+    @Column(nullable = false)
+    private String hash;
+
     @Builder
-    public Crawling(String fileName, String url){
-        this.fileName =fileName;
+    public Crawling(String url, String hash){
         this.url = url;
+        this.hash= hash;
     }
 }

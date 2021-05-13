@@ -28,16 +28,16 @@ public class CrawlingRepositoryTest {
     @Test
     public void saveLoad() throws IOException {
         String url = "https://www.testurl/abc";
-        String fileName = "testFileName";
+        String hash = "fff1f81841";
 
         crawlingRepository.save(Crawling.builder()
-                .fileName(fileName)
                 .url(url)
+                .hash(hash)
                 .build()
         );
 
         List<Crawling> crawlingList = crawlingRepository.findAll();
-        assertThat(crawlingList.get(0).getFileName()).isEqualTo(fileName);
+        assertThat(crawlingList.get(0).getHash()).isEqualTo(hash);
         assertThat(crawlingList.get(0).getUrl()).isEqualTo(url);
 
     }

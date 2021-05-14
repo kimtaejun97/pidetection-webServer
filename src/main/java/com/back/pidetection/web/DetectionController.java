@@ -1,5 +1,6 @@
 package com.back.pidetection.web;
 
+import com.back.pidetection.domain.crawling.CrawlingRepository;
 import com.back.pidetection.service.DetectionService;
 import com.back.pidetection.web.dto.DetectionResultDto;
 import lombok.RequiredArgsConstructor;
@@ -10,12 +11,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
 public class DetectionController {
     private final ArrayList<DetectionResultDto> resultDtos;
     private final DetectionService detectionService;
+    private final CrawlingRepository crawlingRepository;
 
 
     @GetMapping("/")
@@ -33,24 +36,25 @@ public class DetectionController {
 
     @PostMapping("/api/detection/result")
     public String saveResult(@RequestParam("face") MultipartFile image,
-                             @RequestParam("url") String url,
+                             @RequestParam("hash") String hash,
                              @RequestParam("precision") String precision) throws IOException {
 
-        DetectionResultDto resultDto = detectionService.getResultDto(image, url, precision);
-
-        System.out.println("URL :"+resultDto.getUrl());
-        System.out.println("PRECSTION : "+resultDto.getPrecision());
-
-        if (! resultDto.getUrl().equals("")) {
-            resultDtos.add(resultDto);
-            System.out.println("==검출!==");
-            return "/wait-page";
-        } else {
+        // hash로 url 리스트 받기
+        List<String> urls = crawlingRepository.findAllHash(hash);
+        if(urls.size() ==0){
             System.out.println("매칭 종료.");
-
-            return "redirect:/result";
+            return "result";
         }
 
+        for(String url :urls){
+            DetectionResultDto resultDto = detectionService.getResultDto(image, url, precision);
+            System.out.println("=====검출!=====");
+            System.out.println("URL :"+resultDto.getUrl());
+            System.out.println("PRECSTION : "+resultDto.getPrecision());
+            resultDtos.add(resultDto);
+        }
+
+        return "wait-page";
     }
     @GetMapping("/result")
     public String resultTest2(Model model){

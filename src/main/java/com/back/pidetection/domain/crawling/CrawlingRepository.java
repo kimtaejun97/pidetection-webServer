@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CrawlingRepository extends JpaRepository<Crawling, Long> {
 
-    @Query("SELECT C.url FROM Crawling C WHERE C.hash like %?1%")
+    @Query("SELECT C.url FROM Crawling C WHERE C.hash like ?1")
     List<String> findAllHash(String hash);
 
 }

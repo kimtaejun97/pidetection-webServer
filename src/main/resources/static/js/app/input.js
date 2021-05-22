@@ -3,15 +3,53 @@ var main = {
         var _this = this;
 
         $('#btn-upload').on("click",function (){
+            _this.inputViewResult()
             _this.upload()
+        }),
+
+        $('#input_file').change(function (){
+            console.log("input change");
+            _this.inputView(this);
         });
     },
 
+    inputView : function (input){
+        if(input.files && input.files[0]){
+            var reader = new FileReader();
+
+            reader.onload = function (e){
+                console.log(e);
+                $('.input-image-view').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+
+    },
+
+    inputViewResult : function (){
+        var formData = new FormData($('#input-image')[0]);
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/result/inputView',
+            data: formData,
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            dataType: 'text',
+
+            success: function (res) {
+            },
+            error: function (e) {
+                alert("파일 업로드 실패: " + JSON.stringify(e));
+            }
+        });
+    },
 
     upload : function () {
-        var flag = true
 
         var formData = new FormData($('#input-image')[0]);
+
         $.ajax({
             type: 'POST',
             url: '/api/detection/input',
@@ -22,15 +60,12 @@ var main = {
             dataType: 'text',
 
             success: function (res) {
-                flag= false
                 window.location.href=res;
 
             },
             error: function (e) {
                 alert("파일 업로드 실패: " + JSON.stringify(e));
             }
-
-
         });
 
         alert("파일 업로드 완료.");

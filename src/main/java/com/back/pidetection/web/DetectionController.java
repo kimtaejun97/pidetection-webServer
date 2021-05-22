@@ -11,18 +11,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
 public class DetectionController {
-    private final ArrayList<DetectionResultDto> resultDtos;
     private final DetectionService detectionService;
     private final CrawlingRepository crawlingRepository;
+    private final ArrayList<DetectionResultDto> resultDtos;
+    private String inputImage="";
 
 
     @GetMapping("/")
     public String index(){
+        cleanup();
         return "index";
     }
 
@@ -32,7 +35,16 @@ public class DetectionController {
     }
 
     @GetMapping("/input")
-    public String inputPage() { return "input"; }
+    public String inputPage() {
+        cleanup();
+        return "input";
+    }
+
+    @PostMapping("/api/result/inputView")
+    public @ResponseBody String resultInputImg( @RequestParam("image") MultipartFile image) throws IOException, InterruptedException {
+        inputImage = Base64.getEncoder().encodeToString(image.getBytes());
+        return "";
+    }
 
     @PostMapping("/api/detection/result")
     public String saveResult(@RequestParam("face") MultipartFile image,
@@ -58,6 +70,7 @@ public class DetectionController {
     }
     @GetMapping("/result")
     public String resultTest2(Model model){
+        model.addAttribute("inputImage", inputImage);
         model.addAttribute("result",resultDtos);
         return "result";
     }
@@ -90,5 +103,10 @@ public class DetectionController {
         return "/result";
 
     }
+
+   public void cleanup(){
+        resultDtos.clear();
+        inputImage ="";
+   }
 
 }

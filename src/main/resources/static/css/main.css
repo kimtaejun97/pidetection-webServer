@@ -2351,6 +2351,9 @@ input, select, textarea {
 			}
 
 /* Image */
+	div #input-image-view{
+		padding-left: 50px;
+	}
 
 	.image {
 		border-radius: 4px;
@@ -2393,6 +2396,7 @@ input, select, textarea {
 			.image.fit img {
 				width: 100%;
 			}
+
 
 /* List */
 

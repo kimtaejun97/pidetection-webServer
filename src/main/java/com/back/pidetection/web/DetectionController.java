@@ -29,13 +29,9 @@ public class DetectionController {
         return "index";
     }
 
-    @GetMapping("/wait-page")
-    public String waitPage(){
-        return "wait-page";
-    }
-
     @GetMapping("/input")
     public String inputPage() {
+
         cleanup();
         return "input";
     }
@@ -47,15 +43,15 @@ public class DetectionController {
     }
 
     @PostMapping("/api/detection/result")
-    public String saveResult(@RequestParam("face") MultipartFile image,
+    public @ResponseBody String saveResult(@RequestParam("face") MultipartFile image,
                              @RequestParam("hash") String hash,
                              @RequestParam("precision") String precision) throws IOException {
 
         // hash로 url 리스트 받기
         List<String> urls = crawlingRepository.findAllHash(hash);
         if(urls.size() ==0){
-            System.out.println("매칭 종료.");
-            return "result";
+            System.out.println("url 검출 실패.");
+            return "hash에 해당하는 url이 없습니다.";
         }
 
         for(String url :urls){
@@ -65,8 +61,7 @@ public class DetectionController {
             System.out.println("PRECSTION : "+resultDto.getPrecision());
             resultDtos.add(resultDto);
         }
-
-        return "wait-page";
+        return "데이터 수신.";
     }
     @GetMapping("/result")
     public String resultTest2(Model model){

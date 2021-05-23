@@ -7,11 +7,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -19,33 +24,39 @@ import java.util.List;
 public class DetectionController {
     private final DetectionService detectionService;
     private final CrawlingRepository crawlingRepository;
-    private final ArrayList<DetectionResultDto> resultDtos;
+    private final HashMap<String, ArrayList<DetectionResultDto>> resultMap;
+    private final HashMap<String,String> inputImageMap;
     private String inputImage="";
 
 
     @GetMapping("/")
-    public String index(){
-        cleanup();
+    public String index(HttpSession session){
         return "index";
     }
 
     @GetMapping("/input")
-    public String inputPage() {
-
-        cleanup();
+    public String inputPage(HttpSession session) {
         return "input";
     }
 
     @PostMapping("/api/result/inputView")
     public @ResponseBody String resultInputImg( @RequestParam("image") MultipartFile image) throws IOException, InterruptedException {
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String ip = req.getRemoteAddr();
+        System.out.println(ip);
         inputImage = Base64.getEncoder().encodeToString(image.getBytes());
+
+        inputImageMap.put(ip,inputImage);
+        resultMap.put(ip, new ArrayList<DetectionResultDto>());
+
         return "";
     }
 
     @PostMapping("/api/detection/result")
     public @ResponseBody String saveResult(@RequestParam("face") MultipartFile image,
                              @RequestParam("hash") String hash,
-                             @RequestParam("precision") String precision) throws IOException {
+                             @RequestParam("precision") String precision,
+                                           @RequestParam("ip") String ip) throws IOException {
 
         // hash로 url 리스트 받기
         List<String> urls = crawlingRepository.findAllHash(hash);
@@ -59,14 +70,25 @@ public class DetectionController {
             System.out.println("=====검출!=====");
             System.out.println("URL :"+resultDto.getUrl());
             System.out.println("PRECSTION : "+resultDto.getPrecision());
+            System.out.println("ClientIp : "+ ip);
+            System.out.println("MAp :" +resultMap.size());
+            ArrayList<DetectionResultDto> resultDtos= resultMap.get(ip);
             resultDtos.add(resultDto);
+            resultMap.put(ip,resultDtos);
         }
         return "데이터 수신.";
     }
     @GetMapping("/result")
     public String resultTest2(Model model){
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String ip = req.getRemoteAddr();
+        ArrayList<DetectionResultDto> resultDtos = resultMap.get(ip);
+        String inputImage = inputImageMap.get(ip);
+        resultMap.remove(ip);
+        inputImageMap.remove(ip);
+
         model.addAttribute("inputImage", inputImage);
-        model.addAttribute("result",resultDtos);
+        model.addAttribute("result", resultDtos);
         return "result";
     }
 
@@ -74,6 +96,9 @@ public class DetectionController {
     // AI Server쪽 코드
     @PostMapping("/api/detection/input")
     public @ResponseBody String inputSaveTest( @RequestParam("image") MultipartFile image) throws IOException, InterruptedException {
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String ip = req.getRemoteAddr();
+
         String filePath="/Users/kimtaejun/Desktop/pidetection/src/main/java/com/back/pidetection/web/";
 
         String fileName = image.getOriginalFilename();
@@ -99,9 +124,6 @@ public class DetectionController {
 
     }
 
-   public void cleanup(){
-        resultDtos.clear();
-        inputImage ="";
-   }
+
 
 }

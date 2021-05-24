@@ -42,12 +42,12 @@ public class DetectionController {
     @PostMapping("/api/result/inputView")
     public @ResponseBody String resultInputImg( @RequestParam("image") MultipartFile image) throws IOException, InterruptedException {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String ip = req.getRemoteAddr();
-        System.out.println(ip);
+        String clientIp = req.getRemoteAddr();
+        System.out.println("이미지 매칭 클라이언트 IP : "+ clientIp);
         inputImage = Base64.getEncoder().encodeToString(image.getBytes());
 
-        inputImageMap.put(ip,inputImage);
-        resultMap.put(ip, new ArrayList<DetectionResultDto>());
+        inputImageMap.put(clientIp,inputImage);
+        resultMap.put(clientIp, new ArrayList<DetectionResultDto>());
 
         return "";
     }
@@ -56,7 +56,7 @@ public class DetectionController {
     public @ResponseBody String saveResult(@RequestParam("face") MultipartFile image,
                              @RequestParam("hash") String hash,
                              @RequestParam("precision") String precision,
-                                           @RequestParam("ip") String ip) throws IOException {
+                                           @RequestParam("ip") String clientIp) throws IOException {
 
         // hash로 url 리스트 받기
         List<String> urls = crawlingRepository.findAllHash(hash);
@@ -70,11 +70,10 @@ public class DetectionController {
             System.out.println("=====검출!=====");
             System.out.println("URL :"+resultDto.getUrl());
             System.out.println("PRECSTION : "+resultDto.getPrecision());
-            System.out.println("ClientIp : "+ ip);
-            System.out.println("MAp :" +resultMap.size());
-            ArrayList<DetectionResultDto> resultDtos= resultMap.get(ip);
+            System.out.println("MAPPING IP : "+ clientIp);
+            ArrayList<DetectionResultDto> resultDtos= resultMap.get(clientIp);
             resultDtos.add(resultDto);
-            resultMap.put(ip,resultDtos);
+            resultMap.put(clientIp,resultDtos);
         }
         return "데이터 수신.";
     }
@@ -93,7 +92,7 @@ public class DetectionController {
     }
 
 
-    // AI Server쪽 코드
+    // AI Server쪽 코드 테스트.
     @PostMapping("/api/detection/input")
     public @ResponseBody String inputSaveTest( @RequestParam("image") MultipartFile image) throws IOException, InterruptedException {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -116,9 +115,28 @@ public class DetectionController {
         System.out.println("사용자 이미지 저장 성공.");
 
         System.out.println("얼굴 매칭....");
-        System.out.println("결과 전송....");
+
+        //cmd로 python 스크립트 실행.
+//        String cmd[] = new String[3];
+//        cmd[0] ="/bin/sh";
+//        // 명령어 모두 실해 후 종료 옵션.
+//        cmd[1] = "-c";
+//        cmd[2] = "cd ~/Desktop/Capstone/test && python test.py";
+//
+//        Runtime runtime = Runtime.getRuntime();
+//        Process process = runtime.exec(cmd);
+//
+//
+//        BufferedReader br = new BufferedReader(
+//                new InputStreamReader(
+//                        process.getInputStream()));
+//        String line;
+//        while((line =br.readLine()) !=null)
+//            System.out.println(line);
+//
+        System.out.println("결과 전송 완료.");
         Thread.sleep(5000);
-        System.out.println("종료.");
+        System.out.println("매칭 완료.");
 
         return "/result";
 

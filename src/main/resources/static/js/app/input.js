@@ -47,7 +47,6 @@ var main = {
     },
 
     upload : function () {
-
         var formData = new FormData($('#input-image')[0]);
 
         $.ajax({

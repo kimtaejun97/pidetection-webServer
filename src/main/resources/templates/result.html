@@ -32,7 +32,7 @@
 						<th>일치</th>
 					</thead>
 					<tbody>
-					<tr th:each="result : ${result}">
+					<tr th:each="result : ${results}">
 					<!--url 은 링크로-->
 						<td><img th:src="*{'data:image/png;base64,'+result.image}" alt="" width="112" /></td>
 						<td><a th:text="${result.url}" href="${result.url}"></a></td>

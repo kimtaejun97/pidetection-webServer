@@ -11,13 +11,15 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Controller
@@ -54,7 +56,7 @@ public class DetectionController {
         // hash로 url 리스트 받기
         List<String> urls = crawlingRepository.findAllHash(hash);
         if(urls.size() ==0){
-            System.out.println("url 검출 실패.");
+            System.out.println("url 검출 실패. hash에 해당하는 url이 없습니다");
             return "hash에 해당하는 url이 없습니다.";
         }
         for(String url :urls){
@@ -66,7 +68,6 @@ public class DetectionController {
 
             ArrayList<DetectionResultDto> resultDtos = (ArrayList<DetectionResultDto>) session.getAttribute("results");
             resultDtos.add(resultDto);
-            System.out.println(resultDto.getImage().length());
             session.setAttribute("results",resultDtos);
 
         }
@@ -86,10 +87,9 @@ public class DetectionController {
     @PostMapping("/api/detection/input")
     public @ResponseBody String inputSaveTest( @RequestParam("image") MultipartFile image, HttpSession session) throws IOException, InterruptedException {
         String sessionId = session.getId();
-
-        String filePath="/Users/kimtaejun/Desktop/pidetection/src/main/java/com/back/pidetection/web/";
-
-        String fileName = image.getOriginalFilename();
+//        String filePath="/Users/kimtaejun/Desktop/pidetection/src/main/java/com/back/pidetection/web/";
+        String filePath = "C:\\Users\\admin\\Desktop\\Capston\\recognition\\ArcFace\\data\\target\\";
+        String fileName = sessionId+"_"+image.getOriginalFilename();
         System.out.println("파일 이름 : "+fileName);
         byte[] im = image.getBytes();
         System.out.println("파일 크기 : "+im.length);
@@ -104,16 +104,30 @@ public class DetectionController {
         System.out.println("사용자 이미지 저장 성공.");
         System.out.println("얼굴 매칭....");
 
-//        cmd로 python 스크립트 실행.
-        String cmd[] = new String[3];
-        cmd[0] ="/bin/sh";
-        // 명령어 모두 실해 후 종료 옵션.
-        cmd[1] = "-c";
-        cmd[2] = "cd ~/Desktop/Capstone/test && python test.py --sessionId "+sessionId;
+        BufferedReader errorBufferReader = null;
 
+
+//        -------------------cmd로 python 스크립트 실행.----------------
+
+        String[] cmd = new String[3];
+//        cmd[0] ="/bin/sh";
+        cmd[0] = "cmd.exe";
+//        cmd[1] = "-c";
+        cmd[1] = "/C";
+//        cmd[2] ="cd C:\\Users\\admin\\Desktop\\Capston\\test && python test.py";
+
+        // windows는 관리자 권한으로 실행.
+        cmd[2] = "cd C:\\Users\\admin\\Desktop\\Capston\\recognition\\ArcFace && python verifi_final.py --data-dir data --nfolds 1 --sessionid "+sessionId+" --filename "+fileName;
         Runtime runtime = Runtime.getRuntime();
         Process process = runtime.exec(cmd);
 
+        process.waitFor();
+
+        if (process.exitValue() == 0) {
+            System.out.println("성공");
+        } else {
+            System.out.println("비정상 종료");
+        }
 
         BufferedReader br = new BufferedReader(
                 new InputStreamReader(
@@ -122,14 +136,12 @@ public class DetectionController {
         while((line =br.readLine()) !=null)
             System.out.println(line);
 
+
         System.out.println("결과 전송 완료.");
-        Thread.sleep(5000);
+//        Thread.sleep(5000);
         System.out.println("매칭 완료.");
 
         return "/result";
 
     }
-
-
-
 }

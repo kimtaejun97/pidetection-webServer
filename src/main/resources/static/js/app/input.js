@@ -54,7 +54,7 @@ var main = {
             type: 'POST',
             url: 'http://218.239.8.6:8080/api/detection/input',
             data: formData,
-            crossDomain:true,
+            crossOrigin:true,
             enctype: 'multipart/form-data',
             processData: false,
             contentType: false,

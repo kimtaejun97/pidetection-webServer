@@ -29,6 +29,7 @@ var main = {
     inputViewResult : function (){
         var formData = new FormData($('#input-image')[0]);
 
+
         $.ajax({
             type: 'POST',
             url: '/api/result/inputView',
@@ -57,6 +58,7 @@ var main = {
             processData: false,
             contentType: false,
             dataType: 'text',
+            xhrFields : { withCredentials : true},
 
             success: function (res) {
                 window.location.href=res;

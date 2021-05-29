@@ -49,6 +49,17 @@ var main = {
 
     upload : function () {
         var formData = new FormData($('#input-image')[0]);
+        var sessionval;
+
+        $.ajax({
+            type:'GET',
+            url: '/',
+            dataType : 'text',
+            success: function (sessionId){
+                sessionval = sessionId;
+            }
+        })
+        formData.append("sessionId", sessionval)
 
         $.ajax({
             type: 'POST',

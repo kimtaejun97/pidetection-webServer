@@ -51,7 +51,7 @@ var main = {
 
         $.ajax({
             type: 'POST',
-            url: '/api/detection/input',
+            url: 'http://218.239.8.6:8080/api/detection/input',
             data: formData,
             enctype: 'multipart/form-data',
             processData: false,
@@ -70,12 +70,7 @@ var main = {
         alert("파일 업로드 완료.");
         var waitMsg =document.getElementById("wait-msg");
         waitMsg.innerText = "매칭중..."
-
-
-
     },
-
-
 
 };
 

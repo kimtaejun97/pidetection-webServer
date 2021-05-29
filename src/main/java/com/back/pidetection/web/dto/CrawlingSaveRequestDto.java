@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 
 @Getter
+
 @NoArgsConstructor
 public class CrawlingSaveRequestDto {
     private String url;

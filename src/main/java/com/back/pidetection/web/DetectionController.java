@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.*;
+//import java.io.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -84,64 +84,64 @@ public class DetectionController {
 
 
     // AI Server쪽 코드 테스트.
-    @PostMapping("/api/detection/input")
-    public @ResponseBody String inputSaveTest( @RequestParam("image") MultipartFile image, HttpSession session) throws IOException, InterruptedException {
-        String sessionId = session.getId();
-//        String filePath="/Users/kimtaejun/Desktop/pidetection/src/main/java/com/back/pidetection/web/";
-        String filePath = "C:\\Users\\admin\\Desktop\\Capston\\recognition\\ArcFace\\data\\target\\";
-        String fileName = sessionId+"_"+image.getOriginalFilename();
-        System.out.println("파일 이름 : "+fileName);
-        byte[] im = image.getBytes();
-        System.out.println("파일 크기 : "+im.length);
+//    @PostMapping("/api/detection/input")
+//    public @ResponseBody String inputSaveTest( @RequestParam("image") MultipartFile image, HttpSession session) throws IOException, InterruptedException {
+//        String sessionId = session.getId();
+////        String filePath="/Users/kimtaejun/Desktop/pidetection/src/main/java/com/back/pidetection/web/";
+//        String filePath = "C:\\Users\\admin\\Desktop\\Capston\\recognition\\ArcFace\\data\\target\\";
+//        String fileName = sessionId+"_"+image.getOriginalFilename();
+//        System.out.println("파일 이름 : "+fileName);
+//        byte[] im = image.getBytes();
+//        System.out.println("파일 크기 : "+im.length);
+//
+//        try{
+//            image.transferTo(new File(filePath + fileName));
+//
+//        } catch (IOException e) {
+//            System.out.println("사용자 이미지 저장 실패.");
+//            e.printStackTrace();
+//        }
+//        System.out.println("사용자 이미지 저장 성공.");
+//        System.out.println("얼굴 매칭....");
+//
+//        BufferedReader errorBufferReader = null;
+//
+//
+////        -------------------cmd로 python 스크립트 실행.----------------
+//
+//        String[] cmd = new String[3];
+////        cmd[0] ="/bin/sh";
+//        cmd[0] = "cmd.exe";
+////        cmd[1] = "-c";
+//        cmd[1] = "/C";
+////        cmd[2] ="cd C:\\Users\\admin\\Desktop\\Capston\\test && python test.py";
+//
+//        // windows는 관리자 권한으로 실행.
+//        cmd[2] = "cd C:\\Users\\admin\\Desktop\\Capston\\recognition\\ArcFace && python verifi_final.py --data-dir data --nfolds 1 --sessionid "+sessionId+" --filename "+fileName;
+//        Runtime runtime = Runtime.getRuntime();
+//        Process process = runtime.exec(cmd);
+//
+//        process.waitFor();
+//
+//        if (process.exitValue() == 0) {
+//            System.out.println("성공");
+//        } else {
+//            System.out.println("비정상 종료");
+//        }
+//
+//        BufferedReader br = new BufferedReader(
+//                new InputStreamReader(
+//                        process.getInputStream()));
+//        String line;
+//        while((line =br.readLine()) !=null)
+//            System.out.println(line);
+//
+//
+//        System.out.println("결과 전송 완료.");
+////        Thread.sleep(5000);
+//        System.out.println("매칭 완료.");
+//
+//        return "/result";
 
-        try{
-            image.transferTo(new File(filePath + fileName));
-
-        } catch (IOException e) {
-            System.out.println("사용자 이미지 저장 실패.");
-            e.printStackTrace();
-        }
-        System.out.println("사용자 이미지 저장 성공.");
-        System.out.println("얼굴 매칭....");
-
-        BufferedReader errorBufferReader = null;
-
-
-//        -------------------cmd로 python 스크립트 실행.----------------
-
-        String[] cmd = new String[3];
-//        cmd[0] ="/bin/sh";
-        cmd[0] = "cmd.exe";
-//        cmd[1] = "-c";
-        cmd[1] = "/C";
-//        cmd[2] ="cd C:\\Users\\admin\\Desktop\\Capston\\test && python test.py";
-
-        // windows는 관리자 권한으로 실행.
-        cmd[2] = "cd C:\\Users\\admin\\Desktop\\Capston\\recognition\\ArcFace && python verifi_final.py --data-dir data --nfolds 1 --sessionid "+sessionId+" --filename "+fileName;
-        Runtime runtime = Runtime.getRuntime();
-        Process process = runtime.exec(cmd);
-
-        process.waitFor();
-
-        if (process.exitValue() == 0) {
-            System.out.println("성공");
-        } else {
-            System.out.println("비정상 종료");
-        }
-
-        BufferedReader br = new BufferedReader(
-                new InputStreamReader(
-                        process.getInputStream()));
-        String line;
-        while((line =br.readLine()) !=null)
-            System.out.println(line);
-
-
-        System.out.println("결과 전송 완료.");
-//        Thread.sleep(5000);
-        System.out.println("매칭 완료.");
-
-        return "/result";
-
-    }
+//    }
 }

@@ -49,28 +49,29 @@ var main = {
 
     upload : function () {
         var formData = new FormData($('#input-image')[0]);
-        var sessionval;
 
         $.ajax({
-            type:'GET',
-            url: '/',
+            type:'POST',
+            url: '/api/sessionId',
             dataType : 'text',
             success: function (sessionId){
-                sessionval = sessionId;
+                formData.append("sessionId", sessionId)
+                console.log("append : ", sessionId)
+            },
+            fail : function (e) {
+
             }
         })
-        formData.append("sessionId", sessionval)
+
 
         $.ajax({
             type: 'POST',
             url: 'http://218.239.8.6:8080/api/detection/input',
             data: formData,
-            crossOrigin:true,
             enctype: 'multipart/form-data',
             processData: false,
             contentType: false,
             dataType: 'text',
-            xhrFields : { withCredentials : true},
 
             success: function (res) {
                 window.location.href=res;

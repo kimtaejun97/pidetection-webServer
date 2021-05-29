@@ -33,7 +33,7 @@ public class DetectionController {
     public String index(){
         return "index";
     }
-    @GetMapping("api/sessionId")
+    @PostMapping("api/sessionId")
     public @ResponseBody String getSessionId(HttpSession session){
         return session.getId();
     }

@@ -48,20 +48,23 @@ var main = {
     },
 
     upload : function () {
-        var formData = new FormData($('#input-image')[0]);
+        let formData = new FormData($('#input-image')[0]);
 
-        $.ajax({
-            type:'POST',
-            url: '/api/sessionId',
-            dataType : 'text',
-            success: function (sessionId){
-                formData.append("sessionId", sessionId)
-                console.log("append : ", sessionId)
-            },
-            fail : function (e) {
+        var getsessionId =
+            $.ajax({
+                type:'POST',
+                url: '/api/sessionId',
+                dataType : 'text',
+                async: false,
+                success: function (sessionId){
+                    formData.append("sessionId",sessionId);
+                },
+                fail : function (e) {
 
-            }
-        })
+                }
+            });
+ㅣ
+        console.log("session " + formData.get("sessionId"));
 
 
         $.ajax({

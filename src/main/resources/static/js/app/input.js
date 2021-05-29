@@ -63,8 +63,6 @@ var main = {
 
                 }
             });
-ㅣ
-        console.log("session " + formData.get("sessionId"));
 
 
         $.ajax({

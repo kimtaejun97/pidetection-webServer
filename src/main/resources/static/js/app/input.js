@@ -32,7 +32,7 @@ var main = {
         var fileSize = formData.get("image").size;
 
         //size check
-        if(fileSize <10485760){
+        if(fileSize < 10485760){
             $.ajax({
                 type: 'POST',
                 url: '/api/result/inputView',

@@ -35,7 +35,7 @@
 					<tr th:each="result : ${results}">
 					<!--url 은 링크로-->
 						<td><img th:src="*{'data:image/png;base64,'+result.image}" alt="" width="112" /></td>
-						<td><a th:text="${result.url}" href="${result.url}"></a></td>
+						<td><a th:text="${result.url}" th:href="${result.url}"></a></td>
 						<td th:text = "${result.precision}"></td>
 					</tr>
 					</tbody>
@@ -44,13 +44,6 @@
 
 			</div>
 		</section>
-
-
-        <section id="two">
-			<div>
-
-			</div>
-        </section>
 
 		<th:block th:replace="fragment/footer :: footerFragment"></th:block>
 

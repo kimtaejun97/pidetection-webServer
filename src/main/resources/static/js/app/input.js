@@ -59,12 +59,13 @@ var main = {
         var imgName = formData.get("image").name.split(".")
         var ext = imgName[imgName.length-1]
 
-        //size check
-        if(fileSize > 1048576)
-            alert("이미지 사이즈가 너무 큽니다.")
         //file type check
-        else if(! ["jpg","jpeg","png"].includes(ext)){
+        if(! ["jpg","jpeg","png"].includes(ext)){
             alert("jpg,jpeg,png 파일을 넣어주세요.")
+        }
+        //size check
+        else if(fileSize > 10485760){
+            alert("이미지 사이즈가 너무 큽니다.")
             return ;
         }
         else{

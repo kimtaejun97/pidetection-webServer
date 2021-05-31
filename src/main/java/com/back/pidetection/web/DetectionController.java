@@ -81,9 +81,11 @@ public class DetectionController {
     @GetMapping("/result")
     public String resultTest2(Model model, HttpSession session){
         ArrayList<DetectionResultDto> resultDtos = (ArrayList<DetectionResultDto>) session.getAttribute("results");
-
         model.addAttribute("inputImage", session.getAttribute("inputImage"));
         model.addAttribute("results", resultDtos);
+
+        session.setAttribute("results",new ArrayList<DetectionResultDto>());
+
         return "result";
     }
 
@@ -143,10 +145,11 @@ public class DetectionController {
 //
 //
 //        System.out.println("결과 전송 완료.");
-//        Thread.sleep(5000);
+//        Thread.sleep(2000);
 //        System.out.println("매칭 완료.");
-//
+
 //        return "/result";
 //
 //    }
 }
+

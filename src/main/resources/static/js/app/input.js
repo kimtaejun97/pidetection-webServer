@@ -2,7 +2,7 @@ var main = {
     init: function () {
         var _this = this;
 
-        $('#btn-upload').on("click",function (){
+        $('#btn-upload').on("click",function (e){
             _this.inputViewResult()
             _this.upload()
         }),
@@ -58,6 +58,7 @@ var main = {
         var fileSize = formData.get("image").size;
         var imgName = formData.get("image").name.split(".")
         var ext = imgName[imgName.length-1]
+        ext = ext.toLowerCase();
 
         //file type check
         if(! ["jpg","jpeg","png"].includes(ext)){
@@ -65,11 +66,10 @@ var main = {
         }
         //size check
         else if(fileSize > 10485760){
-            alert("이미지 사이즈가 너무 큽니다.")
+            alert("이미지 사이즈가 너무 큽니다.(제한 크기: 10MB)")
             return ;
         }
         else{
-            var getsessionId =
                 $.ajax({
                     type:'POST',
                     url: '/api/sessionId',
@@ -87,6 +87,7 @@ var main = {
             $.ajax({
                 type: 'POST',
                 url: 'http://218.239.8.6:8080/api/detection/input',
+                // url: '/api/detection/input',
                 data: formData,
                 enctype: 'multipart/form-data',
                 processData: false,
@@ -99,12 +100,19 @@ var main = {
                 },
                 error: function (e) {
                     alert("파일 업로드 실패: " + JSON.stringify(e));
+                    document.getElementById("wait-msg").innerText ="";
+                    document.getElementById("btn-upload").disabled =false;
+                    document.getElementById("input_file").disabled =false;
+
+
+
                 }
             });
 
             alert("파일 업로드 완료.");
-            var waitMsg =document.getElementById("wait-msg");
-            waitMsg.innerText = "매칭중..."
+            document.getElementById("wait-msg").innerText ="매칭중...";
+            document.getElementById("btn-upload").disabled =true;
+            document.getElementById("input_file").disabled =true;
         }
 
     },

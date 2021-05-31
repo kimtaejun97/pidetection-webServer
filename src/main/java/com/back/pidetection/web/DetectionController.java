@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-//import java.io.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -26,13 +26,13 @@ import java.io.IOException;
 public class DetectionController {
     private final DetectionService detectionService;
     private final CrawlingRepository crawlingRepository;
-    private String inputImage="";
 
 
     @GetMapping("/")
     public String index(){
         return "index";
     }
+
     @PostMapping("api/sessionId")
     public @ResponseBody String getSessionId(HttpSession session){
         return session.getId();
@@ -46,9 +46,9 @@ public class DetectionController {
     }
 
     @PostMapping("/api/result/inputView")
-    public @ResponseBody String resultInputImg( @RequestParam("image") MultipartFile image, HttpSession session) throws IOException, InterruptedException {
+    public @ResponseBody String resultInputImg( @RequestParam("image") MultipartFile image, HttpSession session) throws IOException {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        inputImage = Base64.getEncoder().encodeToString(image.getBytes());
+        String inputImage = Base64.getEncoder().encodeToString(image.getBytes());
         session.setAttribute("inputImage", inputImage);
 
         return "";
@@ -82,7 +82,7 @@ public class DetectionController {
     public String resultTest2(Model model, HttpSession session){
         ArrayList<DetectionResultDto> resultDtos = (ArrayList<DetectionResultDto>) session.getAttribute("results");
 
-        model.addAttribute("inputImage", inputImage);
+        model.addAttribute("inputImage", session.getAttribute("inputImage"));
         model.addAttribute("results", resultDtos);
         return "result";
     }
@@ -92,8 +92,8 @@ public class DetectionController {
 //    @PostMapping("/api/detection/input")
 //    public @ResponseBody String inputSaveTest( @RequestParam("image") MultipartFile image, HttpSession session) throws IOException, InterruptedException {
 //        String sessionId = session.getId();
-////        String filePath="/Users/kimtaejun/Desktop/pidetection/src/main/java/com/back/pidetection/web/";
-//        String filePath = "C:\\Users\\admin\\Desktop\\Capston\\recognition\\ArcFace\\data\\target\\";
+//        String filePath="/Users/kimtaejun/Desktop/pidetection/src/main/java/com/back/pidetection/web/";
+////        String filePath = "C:\\Users\\admin\\Desktop\\Capston\\recognition\\ArcFace\\data\\target\\";
 //        String fileName = sessionId+"_"+image.getOriginalFilename();
 //        System.out.println("파일 이름 : "+fileName);
 //        byte[] im = image.getBytes();
@@ -143,10 +143,10 @@ public class DetectionController {
 //
 //
 //        System.out.println("결과 전송 완료.");
-////        Thread.sleep(5000);
+//        Thread.sleep(5000);
 //        System.out.println("매칭 완료.");
 //
 //        return "/result";
-
+//
 //    }
 }

@@ -96,7 +96,9 @@ var main = {
 
                 success: function (res) {
                     if(res=="얼굴 미검출"){
-                        alert("이미지에서 얼굴을 찾을 수 없습니다. 다른 이미지로 다시 시도하세.");
+                        alert("이미지에서 얼굴을 찾을 수 없습니다. 다른 이미지로 다시 시도하세요.");
+                        afterUpload("", false,false);
+
                     }
                     else{
                         window.location.href=res;
@@ -105,22 +107,22 @@ var main = {
                 },
                 error: function (e) {
                     alert("이미 업로드 실패: " + JSON.stringify(e));
-                    document.getElementById("wait-msg").innerText ="";
-                    document.getElementById("btn-upload").disabled =false;
-                    document.getElementById("input_file").disabled =false;
-
-
+                    afterUpload("", false,false);
 
                 }
             });
+            afterUpload("매칭중...",true,true);
+            alert("이미 업로드 완료.");
 
-            alert("이미지 업로드 완료.");
-            document.getElementById("wait-msg").innerText ="매칭중...";
-            document.getElementById("btn-upload").disabled =true;
-            document.getElementById("input_file").disabled =true;
+        }
+        function afterUpload (text, btn_upload, btn_input){
+            document.getElementById("wait-msg").innerText =text;
+            document.getElementById("btn-upload").disabled =btn_upload;
+            document.getElementById("input_file").disabled =btn_input;
         }
 
     },
+
 
 };
 

@@ -145,7 +145,7 @@ public class DetectionController {
 //
 //
 //        System.out.println("결과 전송 완료.");
-//        Thread.sleep(2000);
+//        Thread.sleep(100000);
 //        System.out.println("매칭 완료.");
 
 //        return "/result";

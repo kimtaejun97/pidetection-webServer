@@ -106,13 +106,13 @@ var main = {
 
                 },
                 error: function (e) {
-                    alert("이미 업로드 실패: " + JSON.stringify(e));
+                    alert("이미지 업로드 실패: " + JSON.stringify(e));
                     afterUpload("", false,false);
 
                 }
             });
             afterUpload("매칭중...",true,true);
-            alert("이미 업로드 완료.");
+            alert("이미지 업로드 완료.");
 
         }
         function afterUpload (text, btn_upload, btn_input){

@@ -8,15 +8,6 @@ branches:
 
 script: "./gradlew clean build"
 
-before_install:
-  - chmod +x ./gradlew
-
-cache:
-  directories:
-    - '$Home/ .m2/repository'
-    - '$Home/ .gradle'
-
-
 before_deploy:
   - mkdir -p before-deploy
   - cp scripts/*.sh before-deploy/ # 배포 스크립트

@@ -8,38 +8,6 @@ branches:
 
 script: "./gradlew clean build"
 
-before_deploy:
-  - mkdir -p before-deploy
-  - cp scripts/*.sh before-deploy/ # 배포 스크립트
-  - cp appspec.yml before-deploy/ # appspec.yml
-  - cp build/libs/*.jar before-deploy/ #jar
-
-  - cd before-deploy && zip -r before-deploy *
-  - cd ../ && mkdir -p deploy
-  - mv before-deploy/before-deploy.zip deploy/pidetection-webServer.zip
-
-deploy:
-  - provider: s3
-    access_key_id: $AWS_ACCESS_KEY
-    secret_access_key: $AWS_SECRET_KEY
-    bucket: pidetection-build
-    region: ap-northeast-2
-    skip_cleanup: true
-    acl: private #zip파일의 접근 제한
-    local_dir: deploy #before_deploy에서 생성한 디렉토리
-    wait-untill-deployed: true
-
-  - provider: codedeploy
-      access_key_id: $AWS_ACCESS_KEY
-      secret_access_key: $AWS_SECRET_KEY
-      bucket: pidetection-build
-      key: pidetection-webServer.zip
-      bundle_type: zip
-      application: pidetection-webservice #CodeDeploy 애플리케이션
-      deployment_group: pidetection-webservice-group #CodeDeploy 배포 그룹
-      region: ap-northeast-2
-      wait_until-deployed: true
-
 # CI 실행 완료 시 메일로 알람.
 notifications:
   email:

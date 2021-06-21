@@ -7,6 +7,7 @@ branches:
     - master
 
 script: "./gradlew clean build"
+
 before_install:
   - chmod +x ./gradlew
 
@@ -37,16 +38,16 @@ deploy:
     local_dir: deploy #before_deploy에서 생성한 디렉토리
     wait-untill-deployed: true
 
-    - provider: codedeploy
-        access_key_id: $AWS_ACCESS_KEY
-        secret_access_key: $AWS_SECRET_KEY
-        bucket: pidetection-build
-        key: pidetection-webServer.zip
-        bundle_type: zip
-        application: pidetection-webservice #CodeDeploy 애플리케이션
-        deployment_group: pidetection-webservice-group #CodeDeploy 배포 그룹
-        region: ap-northeast-2
-        wait_until-deployed: true
+  - provider: codedeploy
+      access_key_id: $AWS_ACCESS_KEY
+      secret_access_key: $AWS_SECRET_KEY
+      bucket: pidetection-build
+      key: pidetection-webServer.zip
+      bundle_type: zip
+      application: pidetection-webservice #CodeDeploy 애플리케이션
+      deployment_group: pidetection-webservice-group #CodeDeploy 배포 그룹
+      region: ap-northeast-2
+      wait_until-deployed: true
 
 # CI 실행 완료 시 메일로 알람.
 notifications:

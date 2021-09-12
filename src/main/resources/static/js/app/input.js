@@ -103,12 +103,10 @@ var main = {
                     else{
                         window.location.href=res;
                     }
-
                 },
                 error: function (e) {
                     alert("이미지 업로드 실패: " + JSON.stringify(e));
                     afterUpload("", false,false);
-
                 }
             });
             afterUpload("매칭중...",true,true);

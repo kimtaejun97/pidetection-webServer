@@ -1,4 +1,4 @@
-package com.back.pidetection.web;
+package com.pidetection.infra.nginx;
 
 
 import lombok.RequiredArgsConstructor;

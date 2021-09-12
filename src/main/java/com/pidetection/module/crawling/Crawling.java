@@ -1,13 +1,14 @@
-package com.back.pidetection.domain.crawling;
+package com.pidetection.module.crawling;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
+
 @Entity
 public class Crawling {
 
@@ -21,9 +22,5 @@ public class Crawling {
     @Column(nullable = false)
     private String hash;
 
-    @Builder
-    public Crawling(String url, String hash){
-        this.url = url;
-        this.hash= hash;
-    }
+
 }

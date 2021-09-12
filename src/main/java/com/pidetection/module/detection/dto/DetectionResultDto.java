@@ -1,4 +1,4 @@
-package com.back.pidetection.web.dto;
+package com.pidetection.module.detection.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -14,8 +14,7 @@ public class DetectionResultDto {
     private String url;
     private String precision;
 
-    @Builder
-    public DetectionResultDto(String url, byte[] image, String precision){
+    public DetectionResultDto(byte[] image, String url, String precision){
         this.image = Base64.getEncoder().encodeToString(image);
         this.url =url;
         this.precision = precision;

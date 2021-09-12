@@ -1,6 +1,5 @@
-package com.back.pidetection.web;
+package com.pidetection.module.crawling;
 
-import com.back.pidetection.service.CrawlingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,12 +9,12 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-public class CrawlingApiController {
+public class CrawlingController {
 
     private final CrawlingService crawlingService;
 
-    @PostMapping("/api/saveface")
-    public Long save(@RequestBody Map<String, String> reqeust){
-        return crawlingService.save(reqeust);
+    @PostMapping("/face")
+    public Long save(@RequestBody Map<String, String> imageUrlAndHash){
+        return crawlingService.save(imageUrlAndHash);
     }
 }

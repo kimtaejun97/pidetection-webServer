@@ -1,10 +1,10 @@
-package com.back.pidetection.web;
+package com.pidetection.infra.nginx;
 
+import com.pidetection.infra.nginx.ProfileController;
 import org.junit.Test;
 import org.springframework.mock.env.MockEnvironment;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ProfileControllerTest {
 

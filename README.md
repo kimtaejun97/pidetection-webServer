@@ -1,5 +1,13 @@
 # 💻 크롤링과 얼굴인식을 이용한 웹 서비스
 ****
+## 🛠 Tech Stack
+
+- Spring Boot
+- Spring Data JPA
+- thymeleaf
+- Javascripit
+- AWS(EC2,RDS,S3)
+- CI & CD(Travis,NGINX,CodeDeploy)
 
 ## 🧐 1. 시스템 설계
 
